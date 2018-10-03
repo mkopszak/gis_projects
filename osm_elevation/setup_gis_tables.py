@@ -55,14 +55,16 @@ conn.commit()
 cur.execute('''drop table if exists osm_nmt_hights;
 			create table osm_nmt_hights as
 			select			
-				distinct on (n.geom) n.geom,
-				n.id,
+				distinct on (n.id) n.id,
+				n.geom,
 				p.h				
 			from 
 				osm_nodes n, 
 				nmt_100_geom p
 			where 
-				st_dwithin(n.geom, p.geom, 100);'''
+				st_dwithin(n.geom, p.geom, 100)
+			order by
+				n.id, st_distance(n.geom, p.geom);'''
 )	
 			
 			
