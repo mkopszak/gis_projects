@@ -4,7 +4,7 @@ import os
 print("test")
 conn = psycopg2.connect(
 	host = "localhost", 
-	port = 5433, 
+	port = 5432, 
 	dbname = "gis_tatry", 
 	user = "martusia")
 
