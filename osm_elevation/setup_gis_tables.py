@@ -38,7 +38,6 @@ cur.execute(
 )
 
 
-os.chdir('/home/marta/projekty/nmt100_malopolska')
 with open('malopolskie.txt', 'r') as f:
 	cur.copy_from(f, 'nmt_100', sep=' ')
 	
