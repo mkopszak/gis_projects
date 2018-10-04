@@ -53,8 +53,8 @@ cur.execute(query)
 conn.commit()
 
 cur.execute(
-	'''drop table if exists nmt_100_geom_temp;
-		create temporary table nmt_100_geom_temp as
+	'''drop table if exists osm_nodes_temp;
+		create temporary table osm_nodes_temp as
 		select random()
 			geom, h
 		from nmt_100_geom
@@ -71,8 +71,8 @@ cur.execute('''drop table if exists osm_nmt_hights;
 				n.geom,
 				p.h				
 			from 
-				osm_nodes n, 
-				nmt_100_geom_temp p
+				osm_nodes_temp n, 
+				nmt_100_geom p
 			where 
 				st_dwithin(n.geom, p.geom, 100)
 			order by			
