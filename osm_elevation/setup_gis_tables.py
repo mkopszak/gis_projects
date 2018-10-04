@@ -76,8 +76,7 @@ cur.execute('''drop table if exists osm_nmt_hights;
 			where 
 				st_dwithin(n.geom, p.geom, 100)
 			order by			
-				random(), n.id, st_distance(n.geom, p.geom)
-			limit 1000 ;'''
+				n.id, st_distance(n.geom, p.geom);'''
 )	
 			
 			
