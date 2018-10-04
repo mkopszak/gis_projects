@@ -22,7 +22,7 @@ cur.execute(
 		geom 
 	from 
 		planet_osm_nodes;'''
-) 
+/home/marta/projekty/gis_projects/osm_elevation) 
 conn.commit()
 
 cur.execute(
