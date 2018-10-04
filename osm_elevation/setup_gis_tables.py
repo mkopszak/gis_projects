@@ -22,7 +22,7 @@ cur.execute(
 		geom 
 	from 
 		planet_osm_nodes;'''
-/home/marta/projekty/gis_projects/osm_elevation) 
+) 
 conn.commit()
 
 cur.execute(
@@ -64,7 +64,8 @@ cur.execute('''drop table if exists osm_nmt_hights;
 			where 
 				st_dwithin(n.geom, p.geom, 100)
 			order by			
-				rand (n.id) limit 1000, st_distance(n.geom, p.geom);'''
+				random(), n.id, st_distance(n.geom, p.geom)
+			limit 1000 ;'''
 )	
 			
 			
