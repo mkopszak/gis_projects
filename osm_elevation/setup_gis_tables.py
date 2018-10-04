@@ -1,12 +1,20 @@
 import psycopg2
 import os
 
-print("test")
+host = raw_input("host = ")
+port = raw_input("port = ")
+dbname = raw_input("db_name = ")
+user = raw_input("user = ")
+password = raw_input("password (skip while using .pgpass) = ")
+
+
 conn = psycopg2.connect(
-	host = "localhost", 
-	port = 5432, 
-	dbname = "gis_tatry", 
-	user = "martusia")
+	host = host, 
+	port = port, 
+	dbname = dbname, 
+	user = user,
+	password = password
+)
 
 cur = conn.cursor()
 
@@ -18,8 +26,7 @@ cur.execute(
 		st_transform(
 			ST_GeomFromText('POINT(' || lon::numeric/10000000 || ' '|| lat::numeric/10000000 || ')',
 			4326),			 
-		2180) 
-		geom 
+		2180) geom 
 	from 
 		planet_osm_nodes;'''
 ) 
@@ -27,7 +34,7 @@ conn.commit()
 
 cur.execute(
 	'''drop table if exists nmt_100;
-	create temporary table nmt_100(
+		create temporary table nmt_100(
 		x numeric,
 		y numeric,
 		h numeric
@@ -42,7 +49,7 @@ with open('malopolskie.txt', 'r') as f:
 conn.commit()
 
 query = '''drop table if exists nmt_100_geom;
-			create table nmt_100_geom as
+			create temporary table nmt_100_geom as
 			select
 				ST_GeomFromText('POINT('||x||' '||y||')', 2180) as geom,	
 				h
@@ -55,34 +62,32 @@ conn.commit()
 cur.execute(
 	'''drop table if exists osm_nodes_temp;
 		create temporary table osm_nodes_temp as
-		select random()
-			geom, h
-		from nmt_100_geom
+		select 
+			 geom, id
+		from osm_nodes
+		order by random()
 			limit 1000;'''
 )
 
 conn.commit()
 	
 
-cur.execute('''drop table if exists osm_nmt_hights;
-			create table osm_nmt_hights as
+cur.execute('''drop table if exists osm_nmt_hights_1;
+			create table osm_nmt_hights_1 as
 			select			
 				distinct on (n.id) n.id,
 				n.geom,
 				p.h				
 			from 
 				osm_nodes_temp n, 
-				nmt_100_geom p
+				nmt_100_geom_sample p
 			where 
 				st_dwithin(n.geom, p.geom, 100)
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''
 )	
+conn.commit()			
 			
-			
-cur.execute("SELECT * FROM osm_nmt_hights")
-test = cur.fetchone()
-print(test)
 
 cur.close()
 conn.close()
