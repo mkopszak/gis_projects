@@ -66,7 +66,7 @@ cur.execute(
 			 geom, id
 		from osm_nodes
 		order by random()
-			limit 1000;'''
+			limit 10000;'''
 )
 
 conn.commit()
@@ -82,7 +82,7 @@ cur.execute('''drop table if exists osm_nmt_hights_1;
 				osm_nodes_temp n, 
 				nmt_100_geom p
 			where 
-				st_dwithin(n.geom, p.geom, 100)
+				st_dwithin(n.geom, p.geom, 300)
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''
 )	
