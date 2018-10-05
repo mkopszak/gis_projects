@@ -1,11 +1,11 @@
 import psycopg2
 import os
 
-host = raw_input("host = ")
-port = raw_input("port = ")
-dbname = raw_input("db_name = ")
-user = raw_input("user = ")
-password = raw_input("password (skip while using .pgpass) = ")
+host = input("host = ")
+port = input("port = ")
+dbname = input("db_name = ")
+user = input("user = ")
+password = input("password (skip while using .pgpass) = ")
 
 
 conn = psycopg2.connect(
@@ -80,7 +80,7 @@ cur.execute('''drop table if exists osm_nmt_hights_1;
 				p.h				
 			from 
 				osm_nodes_temp n, 
-				nmt_100_geom_sample p
+				nmt_100_geom p
 			where 
 				st_dwithin(n.geom, p.geom, 100)
 			order by			
