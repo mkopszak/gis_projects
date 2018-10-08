@@ -6,6 +6,7 @@ port = input("port = ")
 dbname = input("db_name = ")
 user = input("user = ")
 password = input("password (skip while using .pgpass) = ")
+d = input("mesh distance" = )
 
 
 conn = psycopg2.connect(
@@ -59,30 +60,23 @@ cur.execute(query)
 
 conn.commit()
 
-cur.execute(
-	'''drop table if exists osm_nodes_temp;
-		create temporary table osm_nodes_temp as
-		select 
-			 geom, id
-		from osm_nodes
-		order by random()
-			limit 3000;'''
-)
-
+cur.execute('''create index on osm_nodes using gist(geom)''')
 conn.commit()
-	
+cur.execute('''create index on nmt_100_geom using gist(geom)''')
+conn.commit()
 
-cur.execute('''drop table if exists osm_nmt_hights_1;
+	
+cur.execute('''drop table if exists osm_nmt_altitude;
 			create table osm_nmt_hights_1 as
 			select			
 				distinct on (n.id) n.id,
 				n.geom,
 				p.h				
 			from 
-				osm_nodes_temp n, 
+				osm_nodes n, 
 				nmt_100_geom p
 			where 
-				st_dwithin(n.geom, p.geom, 100)
+				st_dwithin(n.geom, p.geom, d)
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''
 )	
