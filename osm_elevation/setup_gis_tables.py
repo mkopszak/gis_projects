@@ -67,7 +67,7 @@ conn.commit()
 
 	
 cur.execute('''drop table if exists osm_nmt_altitude;
-			create table osm_nmt_hights_1 as
+			create table osm_nmt_altitude as
 			select			
 				distinct on (n.id) n.id,
 				n.geom,
@@ -76,7 +76,7 @@ cur.execute('''drop table if exists osm_nmt_altitude;
 				osm_nodes n, 
 				nmt_100_geom p
 			where 
-				st_dwithin(n.geom, p.geom, d)
+				st_dwithin(n.geom, p.geom, {d})
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''
 )	
