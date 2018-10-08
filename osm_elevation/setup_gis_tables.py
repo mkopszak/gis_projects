@@ -6,7 +6,7 @@ port = input("port = ")
 dbname = input("db_name = ")
 user = input("user = ")
 password = input("password (skip while using .pgpass) = ")
-d = input("mesh distance" = )
+d = input("mesh distance = ")
 
 
 conn = psycopg2.connect(
