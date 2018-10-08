@@ -76,9 +76,9 @@ cur.execute('''drop table if exists osm_nmt_altitude;
 				osm_nodes n, 
 				nmt_100_geom p
 			where 
-				st_dwithin(n.geom, p.geom, {d})
+				st_dwithin(n.geom, p.geom, {})
 			order by			
-				n.id, st_distance(n.geom, p.geom);'''
+				n.id, st_distance(n.geom, p.geom);'''.format(d)
 )	
 conn.commit()			
 			
