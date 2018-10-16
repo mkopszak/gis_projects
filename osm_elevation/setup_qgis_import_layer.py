@@ -33,4 +33,11 @@ label.writeToLayer(vl_alt)
 
 QgsMapLayerRegistry.instance().addMapLayers([vl_alt])
 
+uri.setDataSource("public", "osm_line", "geom", "")
+vl_osm_line = QgsVectorLayer(uri.uri(), "osm_line", "postgres")
+if not vl_osm_line.isValid():
+    print "vector layer not valid"
+    
+QgsMapLayerRegistry.instance().addMapLayers([vl_osm_line])
+
 

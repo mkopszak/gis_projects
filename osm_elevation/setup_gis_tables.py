@@ -89,7 +89,18 @@ cur.execute('''drop table if exists osm_nmt_altitude;
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''.format(d)
 )	
-conn.commit()			
+conn.commit()
+
+cur.execute('''drop table if exists osm_line;
+				create table osm_line as
+				select
+					osm_id,
+					name,
+					tags,
+					st_transform(way, {}) as geom
+					from planet_osm_line;'''.format(srid)
+)	
+conn.commit()
 			
 
 cur.close()
