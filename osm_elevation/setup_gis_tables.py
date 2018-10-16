@@ -1,12 +1,21 @@
 import psycopg2
 import os
 
+def docstring():
+	"""Setup GIS tables.
+	
+	Connects OSM table with altitude table in selected srid 
+	"""
+	
+help(docstring)
+
 host = input("host = ")
 port = input("port = ")
 dbname = input("db_name = ")
 user = input("user = ")
 password = input("password (skip while using .pgpass) = ")
 d = input("mesh distance = ")
+srid = input("mesh coordinate system = ")
 
 
 conn = psycopg2.connect(
@@ -27,9 +36,9 @@ cur.execute(
 		st_transform(
 			ST_GeomFromText('POINT(' || lon::numeric/10000000 || ' '|| lat::numeric/10000000 || ')',
 			4326),			 
-		2180) geom 
+		{}) geom 
 	from 
-		planet_osm_nodes;'''
+		planet_osm_nodes;'''.format(srid)
 ) 
 conn.commit()
 
@@ -52,9 +61,9 @@ conn.commit()
 query = '''drop table if exists nmt_100_geom;
 			create temporary table nmt_100_geom as
 			select
-				ST_GeomFromText('POINT('||x||' '||y||')', 2180) as geom,	
+				ST_GeomFromText('POINT('||x||' '||y||')', {}) as geom,	
 				h
-			from nmt_100;'''
+			from nmt_100;'''.format(srid)
 
 cur.execute(query)
 
