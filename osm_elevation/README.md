@@ -1,5 +1,5 @@
 # About the project
-The aim of the project is to connect data from [OSM] (https://www.openstreetmap.org) and point cloud containing
+The aim of the project is to connect data from [OSM](https://www.openstreetmap.org) and point cloud containing
 altitudes from a specific DEM (Digital Elevation Model) data, since in OSM one doesn't have information aboul object
 elevation by default (in fact, it is quite rare). 
 OSM-based data is represented in postGIS database. The method can be used with any object that consists of OSM nodes (points, lines, polygons).
