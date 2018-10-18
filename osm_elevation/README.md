@@ -38,5 +38,5 @@ osm2pgsql sample.osm -c -d dbname -U username -H host -P port  --hstore --slim -
 3. In QGIS (Python Editor) run qgis_import_layer.py
 
 # QGIS screenshot
-![QGIS visualisation](https://lh6.googleusercontent.com/X8MS9nlskOmpQQ0AwPnB_ixfZfr1Lz9iYEGiaJEQwMvhI25FKkKNmX228A-CHZZT9nlS0EZu7-EogwGsbE3GGEpu6aViBA=w1280-h622)
+![QGIS visualisation](https://github.com/martapienkowska/gis_projects/blob/master/osm_elevation/image.png)
 
