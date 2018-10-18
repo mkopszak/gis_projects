@@ -1,10 +1,14 @@
 import psycopg2
-import os
+
 
 def docstring():
 	"""Setup GIS tables.
 	
-	Connects OSM table with altitude table in selected srid 
+	This script sets up Digital Elevation Model data prepared in .txt file 
+	('example data source is provided in readme for the whole project'). 
+	Then it joins the preexisting OSM-based data with elevation data imported from the file. 
+	Database connection parameters are obtained in the run-time 
+	(password can (and should) be skipped if using .pgpass file). 
 	"""
 	
 help(docstring)
@@ -14,8 +18,11 @@ port = input("port = ")
 dbname = input("db_name = ")
 user = input("user = ")
 password = input("password (skip while using .pgpass) = ")
+print("Info about altitude file, set d = 100 and srid = 2180, if you use CODGIK data")
+file_name = input("name of file with altitudes (with .txt)= ")
 d = input("mesh distance = ")
 srid = input("mesh coordinate system = ")
+
 
 
 conn = psycopg2.connect(
@@ -53,7 +60,7 @@ cur.execute(
 
 conn.commit()
 
-with open('malopolskie.txt', 'r') as f:
+with open(file_name, 'r') as f:
 	cur.copy_from(f, 'nmt_100', sep=' ')
 	
 conn.commit()
@@ -89,19 +96,8 @@ cur.execute('''drop table if exists osm_nmt_altitude;
 			order by			
 				n.id, st_distance(n.geom, p.geom);'''.format(d)
 )	
-conn.commit()
+conn.commit()			
 
-cur.execute('''drop table if exists osm_line;
-				create table osm_line as
-				select
-					osm_id,
-					name,
-					tags,
-					st_transform(way, {}) as geom
-					from planet_osm_line;'''.format(srid)
-)	
-conn.commit()
-			
 
 cur.close()
 conn.close()
