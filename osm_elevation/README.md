@@ -25,7 +25,7 @@ mesh distance = 100 m
 # Directory contents
 sample.osm - small sample of OSM data, a few trails in Tatras
 setup_gis_tables.py - setup to connect data from OSM and altitudes data
-setup_qgis_import_layer.py - setup to visualise altitudes in QGIS
+qgis_import_layer.py - visualises altitudes in QGIS
 
 # Step-by-step execution
 1. Load data from OSM file to database:
@@ -36,7 +36,7 @@ which is discused further [here](http://www.volkerschatz.com/net/osm/osm2pgsql-d
 
 2. In Python3 run setup_gis_tables.py 
 
-3. In QGIS (Python Editor) run setup_qgis_import_layer.py
+3. In QGIS (Python Editor) run qgis_import_layer.py
 
 # QGIS screenshot
 ![QGIS visualisation](https://lh6.googleusercontent.com/X8MS9nlskOmpQQ0AwPnB_ixfZfr1Lz9iYEGiaJEQwMvhI25FKkKNmX228A-CHZZT9nlS0EZu7-EogwGsbE3GGEpu6aViBA=w1280-h622)
